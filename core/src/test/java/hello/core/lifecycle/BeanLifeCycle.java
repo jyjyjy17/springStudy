@@ -1,0 +1,30 @@
+package hello.core.lifecycle;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.lang.annotation.Annotation;
+
+public class BeanLifeCycle {
+    @Test
+    public void lifeCycleTest(){
+        //close를 위해 ConfigurableApplicationContext 사용.
+        ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
+        NetworkClient client = ac.getBean(NetworkClient.class);
+        ac.close();
+    }
+    @Configuration
+    static class LifeCycleConfig{
+        //@Bean(initMethod = "init", destroyMethod = "close")
+        @Bean
+        public NetworkClient networkClient(){
+            NetworkClient networkClient = new NetworkClient();
+            networkClient.setUrl("https://chat.openai.com/");
+            return networkClient;
+        }
+    }
+}
