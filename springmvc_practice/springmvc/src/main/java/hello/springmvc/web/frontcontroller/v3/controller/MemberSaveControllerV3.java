@@ -24,7 +24,7 @@ public class MemberSaveControllerV3 implements ControllerV3 {
 
         String path = "save-result";
         ModelView modelView = new ModelView(path);
-        modelView.getModel().put("members", member);
+        modelView.getModel().put("member", member);
         return modelView;
     }
 }
