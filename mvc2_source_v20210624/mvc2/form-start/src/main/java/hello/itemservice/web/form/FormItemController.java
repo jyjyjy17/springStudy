@@ -69,11 +69,6 @@ public class FormItemController {
     public String item(@PathVariable long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        Map<String, String> regions = new LinkedHashMap<>();
-        regions.put("SEOUL", "서울");
-        regions.put("BUSAN", "부산");
-        regions.put("WONJU","원주");
-        model.addAttribute("regions", regions);
         return "form/item";
     }
 
