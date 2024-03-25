@@ -1,5 +1,6 @@
 package hello.itemservice.web.form;
 
+import hello.itemservice.domain.item.DeliveryCode;
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
 import hello.itemservice.domain.item.ItemType;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,25 +24,40 @@ public class FormItemController {
 
     private final ItemRepository itemRepository;
     private static final Map<String, String> REGIONS;
+    private static final List<DeliveryCode> DELIVERY_CODES;
 
     static {
         REGIONS = new LinkedHashMap<>();
         REGIONS.put("SEOUL", "서울");
         REGIONS.put("BUSAN", "부산");
         REGIONS.put("JEJU", "제주");
+        DELIVERY_CODES = new ArrayList<>();
+        DELIVERY_CODES.add(new DeliveryCode("FAST", "빠른 배송"));
+        DELIVERY_CODES.add(new DeliveryCode("NORMAL", "일반 배송"));
+        DELIVERY_CODES.add(new DeliveryCode("SLOW", "느린 배송"));
+
     }
-    public static Map<String, String> getRegions() {
+    public static Map<String, String> getRegion() {
         return REGIONS;
+    }
+
+    public static List<DeliveryCode> getDeliveryCodes(){
+        return DELIVERY_CODES;
     }
     @ModelAttribute("regions")
     public Map<String, String> regions() {
-        return this.getRegions();
+        return this.getRegion();
     }
 
     @ModelAttribute("itemTypes")
     public ItemType[] itemTypes() {
         return ItemType.values();
     }
+    @ModelAttribute("deliveryCodes")
+    public List<DeliveryCode> deliveryCodes(){
+        return this.getDeliveryCodes();
+    }
+
     @GetMapping
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
@@ -52,6 +69,11 @@ public class FormItemController {
     public String item(@PathVariable long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
+        Map<String, String> regions = new LinkedHashMap<>();
+        regions.put("SEOUL", "서울");
+        regions.put("BUSAN", "부산");
+        regions.put("WONJU","원주");
+        model.addAttribute("regions", regions);
         return "form/item";
     }
 
