@@ -48,7 +48,7 @@ public class RequestBodyJson {
     }
     @ResponseBody
     @PostMapping("/request-body-json-v4")
-    public String requestBodyJsonV3(HelloData helloData) throws IOException {
+    public String requestBodyJsonV4(@RequestBody HelloData helloData) throws IOException {
         log.info("username={},age={}", helloData.getUsername(), helloData.getAge());
         return "ok";
     }
