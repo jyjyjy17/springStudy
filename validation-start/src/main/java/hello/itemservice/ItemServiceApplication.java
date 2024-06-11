@@ -13,8 +13,8 @@ public class ItemServiceApplication implements WebMvcConfigurer {
 		SpringApplication.run(ItemServiceApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	public Validator getValidator() {
 		return new ItemValidator();
-	}
+	}*/
 }
