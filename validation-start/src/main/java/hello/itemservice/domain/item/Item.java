@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+//@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >=10000")
 @Data
 public class Item {
 
