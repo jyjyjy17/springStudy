@@ -6,14 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 
-import static org.assertj.core.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class DBConnectionUtilTest {
-
     @Test
-    void connection() {
+    void Connection() {
         Connection connection = DBConnectionUtil.getConnection();
         assertThat(connection).isNotNull();
+
     }
 }

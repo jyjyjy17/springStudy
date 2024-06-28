@@ -1,6 +1,7 @@
 package hello.jdbc.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
+import hello.jdbc.connection.ConnectionConst;
 import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,24 +22,26 @@ class MemberRepositoryV1Test {
 
     @BeforeEach
     void beforeEach() {
-        //기본 DriverManager - 항상 새로운 커넥션을 획득
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+        //기본 driverManager를 통한 항상 새로운 커넥션 획득
+        //DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
 
-        //커넥션 풀링
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(URL);
-        dataSource.setUsername(USERNAME);
-        dataSource.setPoolName(PASSWORD);
-        repository = new MemberRepositoryV1(dataSource);
+        HikariDataSource datasource = new HikariDataSource();
+        datasource.setJdbcUrl(URL);
+        datasource.setUsername(USERNAME);
+        datasource.setPassword(PASSWORD);
+        datasource.setMaximumPoolSize(10);
+        datasource.setPoolName("Mypool");
+        //이름 지정해서 뭐하지?
+
+        repository = new MemberRepositoryV1(datasource);
     }
 
     @Test
     void crud() throws SQLException {
-        //save
-        Member member = new Member("memberV100", 10000);
+//save
+        Member member = new Member("memberV33W", 10000);
         repository.save(member);
-
-        //findById
+//findById
         Member findMember = repository.findById(member.getMemberId());
         log.info("findMember={}", findMember);
         assertThat(findMember).isEqualTo(member);
@@ -47,16 +50,11 @@ class MemberRepositoryV1Test {
         repository.update(member.getMemberId(), 20000);
         Member updatedMember = repository.findById(member.getMemberId());
         assertThat(updatedMember.getMoney()).isEqualTo(20000);
-
-        //delete
+//delete
         repository.delete(member.getMemberId());
+        // ()를 호출하면 . 아래 예외가 터진다.
         assertThatThrownBy(() -> repository.findById(member.getMemberId()))
                 .isInstanceOf(NoSuchElementException.class);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
+
 }
