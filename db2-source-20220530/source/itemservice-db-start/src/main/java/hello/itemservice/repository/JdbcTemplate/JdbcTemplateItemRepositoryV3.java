@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -32,6 +33,7 @@ import java.util.Optional;
  *
  */
 @Slf4j
+@Repository
 public class JdbcTemplateItemRepositoryV3 implements ItemRepository {
 
     //private final JdbcTemplate template;
@@ -48,7 +50,7 @@ public class JdbcTemplateItemRepositoryV3 implements ItemRepository {
 
     @Override
     public Item save(Item item) {
-        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(item);
+        SqlParameterSource param = new BeanPropertySqlParameterSource(item);
         Number key = jdbcInsert.executeAndReturnKey(param);
         item.setId(key.longValue());
         return item;

@@ -4,6 +4,7 @@ import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ class ItemRepositoryTest {
     @Test
     void save() {
         //given
-        Item item = new Item("itemA", 10000, 10);
+        Item item = new Item("item1", 10000, 10);
+
 
         //when
         Item savedItem = itemRepository.save(item);
